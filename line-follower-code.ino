@@ -36,6 +36,7 @@ void setup()
     pinMode(IR_MIDDLE, INPUT);
     pinMode(IR_LEFT, INPUT);
 
+    Serial.begin(9600);
     stopMotion();
 }
 
@@ -45,26 +46,24 @@ void loop()
     int middleIRRead = digitalRead(IR_MIDDLE);
     int leftIRRead = digitalRead(IR_LEFT);
 
-    // if (rightIRRead == back && middleIRRead == back && leftIRRead == back)
-    // {
-    //     forward();
-    // } else
-    if (rightIRRead == back && middleIRRead == line && leftIRRead == back)
+    Serial.println(middleIRRead);
+    if (rightIRRead == line && leftIRRead == line)
     {
         forward();
-    }
-    else if (rightIRRead == line && leftIRRead == back)
-    {
-        right();
     }
     else if (rightIRRead == back && leftIRRead == line)
     {
+        right();
+    }
+    else if (rightIRRead == line && leftIRRead == back)
+    {
         left();
     }
-    else if (rightIRRead == line && middleIRRead == line && leftIRRead == line && count < 2)
+    else if (rightIRRead == back && middleIRRead == back && leftIRRead == back && count < 2)
     {
         count += 1;
         forward();
+        delay(1000);
     }
     else
     {
