@@ -1,6 +1,8 @@
-#define IR_RIGHT 12
-#define IR_MIDDLE 13
-#define IR_LEFT 11
+#include <LiquidCrystal.h>
+
+#define IR_RIGHT A0
+#define IR_MIDDLE A1
+#define IR_LEFT A2
 #define MOTOR_SPEED 255
 
 // Right motor
@@ -12,6 +14,10 @@ int rightMotorPin2 = 8;
 int enableLeftMotor = 5;
 int leftMotorPin1 = 7;
 int leftMotorPin2 = 10;
+
+// LCD
+int rs = 0, en = 1, p4 = 2, p5 = 3, p6 = 4, p7 = 11;
+LiquidCrystal lcd(rs, en, p4, p5, p6, p7);
 
 int back = LOW;
 int line = HIGH;
@@ -36,7 +42,8 @@ void setup()
     pinMode(IR_MIDDLE, INPUT);
     pinMode(IR_LEFT, INPUT);
 
-    Serial.begin(9600);
+    lcd.begin(16, 2);
+
     stopMotion();
 }
 
@@ -46,24 +53,36 @@ void loop()
     int middleIRRead = digitalRead(IR_MIDDLE);
     int leftIRRead = digitalRead(IR_LEFT);
 
-    Serial.println(middleIRRead);
+    lcd.clear();
+
+    lcd.setCursor(4, 0);
+    lcd.print("G e e k s");
+
     if (rightIRRead == line && leftIRRead == line)
     {
         forward();
+        lcd.setCursor(5, 1);
+        lcd.print("FORWARD");
     }
     else if (rightIRRead == back && leftIRRead == line)
     {
         right();
+        lcd.setCursor(5, 1);
+        lcd.print("RIGHT");
     }
     else if (rightIRRead == line && leftIRRead == back)
     {
         left();
+        lcd.setCursor(5, 1);
+        lcd.print("LEFT");
     }
-    else if (rightIRRead == back && middleIRRead == back && leftIRRead == back && count < 2)
+    else if (rightIRRead == back && middleIRRead == back && leftIRRead == back)
     {
-        count += 1;
+        // count += 1;
         forward();
-        delay(1000);
+        // delay(2500);
+        lcd.setCursor(5, 1);
+        lcd.print("FORWARD");
     }
     else
     {
@@ -86,18 +105,18 @@ void left()
     digitalWrite(rightMotorPin1, HIGH);
     digitalWrite(rightMotorPin2, LOW);
     digitalWrite(leftMotorPin1, LOW);
-    digitalWrite(leftMotorPin2, HIGH);
+    digitalWrite(leftMotorPin2, LOW);
     analogWrite(enableRightMotor, MOTOR_SPEED);
-    analogWrite(enableLeftMotor, MOTOR_SPEED);
+    analogWrite(enableLeftMotor, 0);
 }
 
 void right()
 {
     digitalWrite(rightMotorPin1, LOW);
-    digitalWrite(rightMotorPin2, HIGH);
+    digitalWrite(rightMotorPin2, LOW);
     digitalWrite(leftMotorPin1, HIGH);
     digitalWrite(leftMotorPin2, LOW);
-    analogWrite(enableRightMotor, MOTOR_SPEED);
+    analogWrite(enableRightMotor, 0);
     analogWrite(enableLeftMotor, MOTOR_SPEED);
 }
 
