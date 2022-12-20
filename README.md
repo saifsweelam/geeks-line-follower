@@ -69,12 +69,12 @@ _[To view full diagram click here](./connections/diagram.pdf)_
 ### (Motor Driver - Arduino) Connections
 | Motor Driver | Arduino Uno |
 | ------------ | ----------- |
-| ENA          | D6          |
-| PIN1         | D9          |
-| PIN2         | D8          |
-| PIN3         | D10         |
-| PIN4         | D7          |
-| ENB          | D5          |
+| ENA          | D5          |
+| IN1          | D10         |
+| IN2          | D7          |
+| IN3          | D8          |
+| IN4          | D9          |
+| ENB          | D6          |
 
 ### (LCD - Arduino) Connections
 | LCD | Arduino Uno |
