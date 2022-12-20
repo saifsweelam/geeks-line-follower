@@ -106,3 +106,13 @@ _[To view full code click here](./code/line-follower-code-oop.ino)_
 * We create an instance of each class at the begining of the program.
 * Each class has an `init` function which is executed in the program `setup`.
 * Inside `loop`, we get the reading of the 3 sensors and compare them to decide the current car motion using `if ... else if ... else ...` and the execution of functions inside the `Controller` class.
+
+## Contributers
+* Ahmed Abdelmonem Goda
+* Ahmed Hossam Othman
+* Fatma Soliman
+* Seif El-Din Wael Sweilam
+* Shahd Wael
+* Sherif Mohamed Shaaban
+* Shorouk Saad Abdelmonem
+* Sohila Mostafa
