@@ -1,6 +1,7 @@
 # Line Follower Project
 **By Geeks Team** _CCSED 26 Level 1_
 Final Project
+
 ![Project QR Code](./qr/projectQR.png)
 
 The line follower robot is a robot designed to trace a line on the ground with no physical connection. Our line follower uses a sensor to read the IR rays reflected from the ground to differentiate between the line and other parts on the ground.
@@ -8,25 +9,45 @@ The IR sensor reads are recieved by `Arduino Uno` as a microcontroller to contro
 
 ## Parts
 * Robot Car Acrylic Chassis (2WD)
+
 ![Robot Car Acrylic Chassis](./parts/chassis.jpg "Robot Car Acrylic Chassis")
+
 * Arduino Uno
+
 ![Arduino Uno](./parts/uno_r3.jpg "Arduino Uno")
+
 * DC Geared TT Motors (2x)
+
 ![Geared TT Motor](./parts/dc-motor.jpg "Geared TT Motor")
+
 * Motor Driver (Model L298N)
+
 ![Motor Driver](./parts/l298n.jpg "Motor Driver")
+
 * IR Sensor Modules (3x)
+
 ![IR Sensor](./parts/ir.webp "IR Sensor")
+
 * LCD 16x2 Model
+
 ![LCD](./parts/lcd.jpg "LCD")
+
 * 18650 Li-on Batteries 3.7V (3x)
+
 ![Li-on Battery](./parts/li-on.webp "Li-on Battery")
+
 * 18650 3-Cell Battery Holder
+
 ![Battery Holder](./parts/battery-holder.jpg "Battery Holder")
+
 * DC Switch
+
 ![DC Switch](./parts/switch.jpg "DC Switch")
+
 * Jumper Wires
+
 ![Jumper Wires](./parts/wires.jpg "Jumper Wires")
+
 
 ## Procedures
 
@@ -42,6 +63,7 @@ The IR sensor reads are recieved by `Arduino Uno` as a microcontroller to contro
 * The Motor Driver is directly connected to the battery with the switch in the middle
 
 ![Connections Diagram](./connections/diagram-1.jpg "Connections Diagram")
+
 _[To view full diagram click here](./connections/diagram.pdf)_
 
 ### (Motor Driver - Arduino) Connections
