@@ -16,7 +16,8 @@
 #define LEFT_MOTOR_PIN2 10
 
 // Motor Speed
-#define MOTOR_SPEED 255
+#define MOTOR_SPEED 240
+#define SPEED_DIFF 2
 
 // LCD Pins
 #define LCD_RS 0
@@ -50,10 +51,10 @@ class Motor {
         pinMode(pin2, OUTPUT);
     }
 
-    void forward() {
+    void forward(int speed) {
         digitalWrite(pin1, HIGH);
         digitalWrite(pin2, LOW);
-        analogWrite(enable, MOTOR_SPEED);
+        analogWrite(enable, speed);
     }
 
     void stop() {
@@ -62,10 +63,10 @@ class Motor {
         analogWrite(enable, 0);
     }
 
-    void backward() {
+    void backward(int speed) {
         digitalWrite(pin1, LOW);
         digitalWrite(pin2, HIGH);
-        analogWrite(enable, MOTOR_SPEED);
+        analogWrite(enable, speed);
     }
 };
 
@@ -84,28 +85,28 @@ class Controller {
     }
 
     void forward() {
-        rightMotor->forward();
-        leftMotor->forward();
+        rightMotor->forward(MOTOR_SPEED-SPEED_DIFF);
+        leftMotor->forward(MOTOR_SPEED);
     }
 
     void right() {
         rightMotor->stop();
-        leftMotor->forward();
+        leftMotor->forward(MOTOR_SPEED);
     }
 
     void left() {
         leftMotor->stop();
-        rightMotor->forward();
+        rightMotor->forward(MOTOR_SPEED-SPEED_DIFF);
     }
 
     void rightCorner() {
-        rightMotor->backward();
-        leftMotor->forward();
+        rightMotor->backward(MOTOR_SPEED-SPEED_DIFF);
+        leftMotor->forward(MOTOR_SPEED);
     }
 
     void leftCorner() {
-        leftMotor->backward();
-        rightMotor->forward();
+        leftMotor->backward(MOTOR_SPEED);
+        rightMotor->forward(MOTOR_SPEED-SPEED_DIFF);
     }
 
     void stop() {
@@ -134,8 +135,19 @@ class Screen {
     }
 
     void displayTimer() {
+        int duration = millis() / 10000;
         lcd->setCursor(0, 1);
-        lcd->print(millis() / 1000);
+        lcd->print(duration);
+
+        if (duration < 12) {
+            displayRegion("A");
+        } else if (duration < 24) {
+            displayRegion("B");
+        } else if (duration < 36) {
+            displayRegion("C");
+        } else {
+            displayRegion("D")
+        }
     }
 
     void displayDirection(const char* direction) {
@@ -143,7 +155,7 @@ class Screen {
         lcd->print(direction);
     }
 
-    void displayRegion(char region) {
+    void displayRegion(const char* region) {
         lcd->setCursor(15, 1);
         lcd->print(region);
     }
@@ -194,22 +206,22 @@ void loop() {
     if (rightIRRead == GROUND && leftIRRead == GROUND) {
         ctrl.forward();
         screen.displayDirection(" FORWARD");
+        delay(5);
     } else if (rightIRRead == GROUND && middleIRRead == GROUND && leftIRRead == LINE) {
-        ctrl.left();
+        ctrl.leftCorner();
         screen.displayDirection("  LEFT  ");
     } else if (rightIRRead == GROUND && middleIRRead == LINE && leftIRRead == LINE) {
         ctrl.leftCorner();
         screen.displayDirection(" C LEFT ");
     } else if (rightIRRead == LINE && middleIRRead == GROUND && leftIRRead == GROUND) {
-        ctrl.right();
+        ctrl.rightCorner();
         screen.displayDirection("  RIGHT ");
     } else if (rightIRRead == LINE && middleIRRead == LINE && leftIRRead == GROUND) {
         ctrl.rightCorner();
         screen.displayDirection(" C RIGHT");
-    } else if (rightIRRead == LINE && middleIRRead == LINE && leftIRRead == LINE) {
+    } else {
         ctrl.forward();
         screen.displayDirection(" FORWARD");
-    } else {
-        ctrl.stop();
+        delay(5);
     }
 }
